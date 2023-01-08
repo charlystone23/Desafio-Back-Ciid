@@ -1,17 +1,19 @@
 from fastapi import FastAPI
 from router.router import persona_prov
 from fastapi.middleware.cors import CORSMiddleware
-
+from dotenv import load_dotenv
+from router.auth import auth_routes
 """ instancia """
 
 app= FastAPI()
 
-origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
-    "http://localhost",
-    "http://localhost:8080",
-]
+
+app.include_router(auth_routes,prefix="/api")
+""" cargar las variables de entorno """
+load_dotenv()
+
+
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
