@@ -42,11 +42,10 @@ def create_user(data_user: Userschema,request:Request):
         return a
     with engine.connect() as conn:  #con with nos aseguramso que la conbecion de la base de dadatos se cierre
         new_user = data_user.dict()
-        new_user["user_passw"] =generate_password_hash(data_user.user_passw, "pbkdf2:sha256:30", 30)
         conn.execute(users.insert().values(new_user))
         return Response(status_code=HTTP_201_CREATED)
     
-@persona_prov.post("/api/user/login", status_code=200, tags=["User"])
+""" @persona_prov.post("/api/user/login", status_code=200, tags=["User"])
 def user_login(data_user : DataUser):
     with engine.connect() as conn:
         result = conn.execute(users.select().where(users.c.username == data_user.username)).first()
@@ -55,7 +54,7 @@ def user_login(data_user : DataUser):
             if check_passw:
                 return {"status": 200, "message": "accsess succes"}
         
-        return {"status": HTTP_401_UNAUTHORIZED, "message": "accsess denied"}
+        return {"status": HTTP_401_UNAUTHORIZED, "message": "accsess denied"} """
 
 
 
@@ -66,8 +65,8 @@ def update_user(data_update: Userschema, user_id:str,request:Request):
     if(a != None):
         return a
     with engine.connect() as conn:
-        encrypt_passw= generate_password_hash(data_update.user_passw, "pbkdf2:sha256:30",30)
-        conn.execute(users.update().values(name=data_update.name, username=data_update.username, user_passw= encrypt_passw,id_Provincia=data_update.id_Provincia).where(users.c.id== user_id))
+        
+        conn.execute(users.update().values(lastname=data_update.lastname, name=data_update.name,dni=data_update.dni, fnac=data_update.fnac,adress=data_update.adress,id_Provincia=data_update.id_Provincia).where(users.c.id== user_id))
         
         result = conn.execute(users.select().where(users.c.id == user_id)).first()
 

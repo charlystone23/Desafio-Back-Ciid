@@ -9,7 +9,7 @@ class User(BaseModel):
     usernam:str
     passwor:str
 
-@auth_routes.post("/login")
+@auth_routes.post("/login" , tags=["Auth"])
 def login(user: User):
     print(user.dict())
     if user.usernam == "admin":
@@ -20,7 +20,7 @@ def login(user: User):
     else:
         return JSONResponse(content={"message":"Credenciales invalidaS"},status_code=404)
     
-@auth_routes.post("/verify/token")
+@auth_routes.post("/verify/token", tags=["Auth"])
 def verify_token(Authorization: str= Header(None)):
     token = Authorization.split(" ")[1]
     return validate_token(token,output=True)
