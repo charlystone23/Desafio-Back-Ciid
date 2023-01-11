@@ -19,7 +19,7 @@ def validate_token(token, output=False):
     try:
         if output:
             return decode(token, key=getenv("SECRET"),algorithms=["HS256"] )
-        decode(token, key=getenv("SECRET"),algorithms=["HS256"] )
+            decode(token, key=getenv("SECRET"),algorithms=["HS256"] )
     except exceptions.DecodeError:
         return JSONResponse(content={"message": "Invalid Token"}, status_code=401)
     except exceptions.ExpiredSignatureError:
